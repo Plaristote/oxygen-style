@@ -70,6 +70,7 @@ StyleConfig::StyleConfig(QWidget *parent)
 void StyleConfig::save(void)
 {
     StyleConfigData::setUseBackgroundGradient(_useBackgroundGradient->isChecked());
+    StyleConfigData::setUseInactiveColor(_useInactiveColor->isChecked());
     StyleConfigData::setToolBarDrawItemSeparator(_toolBarDrawItemSeparator->isChecked());
     StyleConfigData::setSplitterProxyEnabled(_splitterProxyEnabled->isChecked());
     StyleConfigData::setMnemonicsMode(_mnemonicsMode->currentIndex());
@@ -176,6 +177,7 @@ void StyleConfig::updateChanged()
 void StyleConfig::load(void)
 {
     _useBackgroundGradient->setChecked(StyleConfigData::useBackgroundGradient());
+    _useInactiveColor->setChecked(StyleConfigData::useInactiveColor());
     _toolBarDrawItemSeparator->setChecked(StyleConfigData::toolBarDrawItemSeparator());
     _mnemonicsMode->setCurrentIndex(StyleConfigData::mnemonicsMode());
     _splitterProxyEnabled->setChecked(StyleConfigData::splitterProxyEnabled());

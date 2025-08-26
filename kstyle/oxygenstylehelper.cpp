@@ -1402,6 +1402,7 @@ void StyleHelper::drawSliderSlab(QPainter &painter, const QColor &color, bool su
 void StyleHelper::init(void)
 {
     _useBackgroundGradient = true;
+    _useInactiveColor = true;
 
 #if OXYGEN_HAVE_X11
     if (isX11()) {

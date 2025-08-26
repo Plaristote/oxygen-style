@@ -10,6 +10,11 @@
     <entry name="UseBackgroundGradient" type = "Bool" >
        <default>true</default>
     </entry>
+
+    <!-- inactive color -->
+    <entry name="UseInactiveColor" type="Bool">
+       <default>true</default>
+    </entry>
   </group>
 
   <!-- widget style -->

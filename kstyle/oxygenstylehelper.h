@@ -42,6 +42,12 @@ public:
         _useBackgroundGradient = value;
     }
 
+    //* inactive color
+    void setUseInactiveColor(bool value)
+    {
+        _useInactiveColor = value;
+    }
+
     //* render window background using a given color as a reference
     /**
     For the widget style, both the gradient and the background pixmap are rendered in the same method.
@@ -248,6 +254,9 @@ private:
 
     //* background grandient
     bool _useBackgroundGradient;
+
+    //* inactive color
+    bool _useInactiveColor;
 
     Cache<QPixmap> _dialSlabCache;
     Cache<QPixmap> _roundSlabCache;

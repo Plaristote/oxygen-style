@@ -1746,6 +1746,9 @@ void Style::loadConfiguration()
     // background gradient
     _helper->setUseBackgroundGradient(StyleConfigData::useBackgroundGradient());
 
+    // inactive colors
+    _helper->setUseInactiveColor(StyleConfigData::useInactiveColor());
+
     // update top level window hints
     const auto topWidgets = qApp->topLevelWidgets();
     for (QWidget *widget : topWidgets) {
@@ -4022,7 +4025,7 @@ bool Style::drawPanelItemViewItemPrimitive(const QStyleOption *option, QPainter 
 
     QPalette::ColorGroup colorGroup;
     if (enabled)
-        colorGroup = active ? QPalette::Normal : QPalette::Inactive;
+        colorGroup = active || !StyleConfigData::useInactiveColor() ? QPalette::Normal : QPalette::Inactive;
     else
         colorGroup = QPalette::Disabled;
 
