@@ -109,6 +109,9 @@ block(SCOPE_FOR VARIABLES)
     FrameworkIntegration
     WindowSystem)
     find_package(Plasma ${PROJECT_DEP_VERSION} REQUIRED)
+    find_package(ECM ${KF6_MIN_VERSION} REQUIRED NO_MODULE)
+    set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} )
+
 
     # https://bugreports.qt.io/browse/QTBUG-114706
     add_library(Qt::Core ALIAS Qt6::Core)
@@ -121,6 +124,7 @@ block(SCOPE_FOR VARIABLES)
 
     add_subdirectory(liboxygen liboxygen6)
     add_subdirectory(kstyle kstyle6)
+    add_subdirectory(qtquickcontrols qtquickcontrols6)
 
     add_subdirectory(color-schemes)
     add_subdirectory(cursors)
