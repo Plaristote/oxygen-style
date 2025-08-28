@@ -1,16 +1,22 @@
 import QtQuick
-import org.kde.kirigami as Kirigami
+import QtQuick.Shapes
 import org.kde.qqc2oxygenstyle.private
+import org.kde.kirigami as Kirigami
 
-Rectangle {
-    id: decoration
+Item {
+    id: root
+    implicitHeight: 26
     implicitWidth: Kirigami.Units.gridUnit * 8
-    radius: Kirigami.Units.cornerRadius
-    color: {
+
+    property real borderRadius: Kirigami.Units.cornerRadius
+    property color baseColor: {
         return OxygenHelper.menuHighlightMode != "MM_DARK"
             ? Kirigami.Theme.highlightColor
             : Qt.darker(Kirigami.Theme.backgroundColor, 1.1)
     }
+    readonly property real borderWidth: 1
+    readonly property color topLeftColor: Qt.darker(baseColor, 1.15)
+    readonly property color bottomRightColor: Qt.lighter(baseColor, 1.35)
 
     Behavior on opacity {
         enabled: Kirigami.Units.shortDuration > 0
@@ -19,56 +25,210 @@ Rectangle {
         }
     }
 
-    // Top border
-    Rectangle {
-        height: 1
-        color: Qt.darker(highlightColor, 1.35)
-        anchors {
-            top: parent.top
-            left: parent.left
-            right: parent.right
-            leftMargin: Kirigami.Units.cornerRadius
-            rightMargin: Kirigami.Units.cornerRadius
-        }
-    }
+    Shape {
+        anchors.fill: parent
 
-    // Left border
-    Rectangle {
-        width: 1
-        color: Qt.darker(decoration.color, 1.35)
-        anchors {
-            top: parent.top
-            left: parent.left
-            bottom: parent.bottom
-            topMargin: Kirigami.Units.cornerRadius
-            bottomMargin: Kirigami.Units.cornerRadius
+        ShapePath {
+            fillColor: root.baseColor
+            strokeColor: "transparent"
+            
+            PathRectangle {
+                x: root.borderWidth
+                y: root.borderWidth
+                width: root.width - 2 * root.borderWidth
+                height: root.height - 2 * root.borderWidth
+                radius: Math.max(0, root.borderRadius - root.borderWidth)
+            }
         }
-    }
-
-    // Bottom border
-    Rectangle {
-        height: 1
-        color: Qt.lighter(decoration.color, 1.35)
-        anchors {
-            left: parent.left
-            right: parent.right
-            bottom: parent.bottom
-            leftMargin: Kirigami.Units.cornerRadius
-            rightMargin: Kirigami.Units.cornerRadius
+        
+        // Top border
+        ShapePath {
+            fillColor: root.topLeftColor
+            strokeColor: "transparent"
+            
+            PathMove {
+                x: root.borderRadius
+                y: 0
+            }
+            PathLine {
+                x: root.width - root.borderRadius
+                y: 0
+            }
+            PathArc {
+                x: root.width
+                y: root.borderRadius
+                radiusX: root.borderRadius
+                radiusY: root.borderRadius
+            }
+            PathLine {
+                x: root.width - root.borderWidth
+                y: root.borderRadius
+            }
+            PathArc {
+                x: root.width - root.borderRadius
+                y: root.borderWidth
+                radiusX: Math.max(0, root.borderRadius - root.borderWidth)
+                radiusY: Math.max(0, root.borderRadius - root.borderWidth)
+                direction: PathArc.Counterclockwise
+            }
+            PathLine {
+                x: root.borderRadius
+                y: root.borderWidth
+            }
+            PathArc {
+                x: root.borderWidth
+                y: root.borderRadius
+                radiusX: Math.max(0, root.borderRadius - root.borderWidth)
+                radiusY: Math.max(0, root.borderRadius - root.borderWidth)
+                direction: PathArc.Counterclockwise
+            }
+            PathLine {
+                x: 0
+                y: root.borderRadius
+            }
+            PathArc {
+                x: root.borderRadius
+                y: 0
+                radiusX: root.borderRadius
+                radiusY: root.borderRadius
+            }
         }
-    }
+        
+        // Left border
+        ShapePath {
+            fillColor: root.topLeftColor
+            strokeColor: "transparent"
+            
+            PathMove {
+                x: 0
+                y: root.borderRadius
+            }
+            PathLine {
+                x: 0
+                y: root.height - root.borderRadius
+            }
+            PathArc {
+                x: root.borderRadius
+                y: root.height
+                radiusX: root.borderRadius
+                radiusY: root.borderRadius
+            }
+            PathLine {
+                x: root.borderRadius
+                y: root.height - root.borderWidth
+            }
+            PathArc {
+                x: root.borderWidth
+                y: root.height - root.borderRadius
+                radiusX: Math.max(0, root.borderRadius - root.borderWidth)
+                radiusY: Math.max(0, root.borderRadius - root.borderWidth)
+                direction: PathArc.Counterclockwise
+            }
+            PathLine {
+                x: root.borderWidth
+                y: root.borderRadius
+            }
+            PathArc {
+                x: 0
+                y: root.borderRadius
+                radiusX: root.borderRadius
+                radiusY: root.borderRadius
+                direction: PathArc.Counterclockwise
+            }
+        }
+        
+        // Bottom border
+        ShapePath {
+            fillColor: root.bottomRightColor
+            strokeColor: "transparent"
+            
+            PathMove {
+                x: root.borderRadius
+                y: root.height
+            }
+            PathLine {
+                x: root.width - root.borderRadius
+                y: root.height
+            }
+            PathArc {
+                x: root.width
+                y: root.height - root.borderRadius
+                radiusX: root.borderRadius
+                radiusY: root.borderRadius
+            }
+            PathLine {
+                x: root.width - root.borderWidth
+                y: root.height - root.borderRadius
+            }
+            PathArc {
+                x: root.width - root.borderRadius
+                y: root.height - root.borderWidth
+                radiusX: Math.max(0, root.borderRadius - root.borderWidth)
+                radiusY: Math.max(0, root.borderRadius - root.borderWidth)
+            }
+            PathLine {
+                x: root.borderRadius
+                y: root.height - root.borderWidth
+            }
+            PathArc {
+                x: root.borderWidth
+                y: root.height - root.borderRadius
+                radiusX: Math.max(0, root.borderRadius - root.borderWidth)
+                radiusY: Math.max(0, root.borderRadius - root.borderWidth)
+            }
+            PathLine {
+                x: 0
+                y: root.height - root.borderRadius
+            }
+            PathArc {
+                x: root.borderRadius
+                y: root.height
+                radiusX: root.borderRadius
+                radiusY: root.borderRadius
+                direction: PathArc.Counterclockwise
+            }
+        }
 
-    // Right border
-    Rectangle {
-        width: 1
-        color: Qt.lighter(decoration.color, 1.35)
-        anchors {
-            top: parent.top
-            right: parent.right
-            bottom: parent.bottom
-            topMargin: Kirigami.Units.cornerRadius
-            bottomMargin: Kirigami.Units.cornerRadius
+        // Right border
+        ShapePath {
+            fillColor: root.bottomRightColor
+            strokeColor: "transparent"
+
+            PathMove {
+                x: root.width
+                y: root.borderRadius
+            }
+            PathLine {
+                x: root.width
+                y: root.height - root.borderRadius
+            }
+            PathArc {
+                x: root.width - root.borderRadius
+                y: root.height
+                radiusX: root.borderRadius
+                radiusY: root.borderRadius
+                direction: PathArc.Counterclockwise
+            }
+            PathLine {
+                x: root.width - root.borderRadius
+                y: root.height - root.borderWidth
+            }
+            PathArc {
+                x: root.width - root.borderWidth
+                y: root.height - root.borderRadius
+                radiusX: Math.max(0, root.borderRadius - root.borderWidth)
+                radiusY: Math.max(0, root.borderRadius - root.borderWidth)
+            }
+            PathLine {
+                x: root.width - root.borderWidth
+                y: root.borderRadius
+            }
+            PathArc {
+                x: root.width
+                y: root.borderRadius
+                radiusX: root.borderRadius
+                radiusY: root.borderRadius
+            }
         }
     }
 }
-
