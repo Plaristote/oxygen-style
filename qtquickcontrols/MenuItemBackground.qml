@@ -9,11 +9,7 @@ Item {
     implicitWidth: Kirigami.Units.gridUnit * 8
 
     property real borderRadius: Kirigami.Units.cornerRadius
-    property color baseColor: {
-        return OxygenHelper.menuHighlightMode != "MM_DARK"
-            ? Kirigami.Theme.highlightColor
-            : Qt.darker(Kirigami.Theme.backgroundColor, 1.1)
-    }
+    property color baseColor: OxygenHelper.menuHighlightColor(Qt.darker(Kirigami.Theme.backgroundColor, 1.1))
     readonly property real borderWidth: 1
     readonly property color topLeftColor: Qt.darker(baseColor, 1.15)
     readonly property color bottomRightColor: Qt.lighter(baseColor, 1.35)

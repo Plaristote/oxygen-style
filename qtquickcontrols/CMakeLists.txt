@@ -27,6 +27,7 @@ target_link_libraries(qqc2oxygenstyleplugin PRIVATE
     Qt${QT_MAJOR_VERSION}::Gui
     Qt${QT_MAJOR_VERSION}::Widgets
     KF${QT_MAJOR_VERSION}::ConfigCore
+    KF${QT_MAJOR_VERSION}::GuiAddons
     oxygenstyle${QT_MAJOR_VERSION}
 )
 

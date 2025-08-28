@@ -14,6 +14,13 @@ Style.MenuBarItem {
     visible: controlRoot.text
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
+
+    Behavior on color {
+        enabled: Kirigami.Units.shortDuration > 0
+        NumberAnimation {
+            duration: Kirigami.Units.shortDuration
+        }
+    }
   }
 
   background: MenuItemBackground {

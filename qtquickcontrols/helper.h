@@ -14,6 +14,8 @@ class OxygenHelper : public QObject
 public:
     OxygenHelper(QObject *parent = nullptr);
 
+    Q_INVOKABLE QColor menuHighlightColor(const QColor &base) const;
+
     bool useBackgroundGradient() const;
     QString menuHighlightMode() const;
     void renderWindowBackground(QPainter *, const QRectF &clipRect, const QRectF &windowRect, const QColor &);
