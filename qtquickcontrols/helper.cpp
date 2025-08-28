@@ -8,11 +8,6 @@ OxygenHelper::OxygenHelper(QObject *parent)
     _helper.reset(new Oxygen::Helper(_config));
 }
 
-QColor OxygenHelper::backgroundRadialColor(const QColor &color)
-{
-    return _helper->backgroundRadialColor(color);
-}
-
 bool OxygenHelper::useBackgroundGradient() const
 {
     return _config->group("Common").readEntry("UseBackgroundGradient", true);
