@@ -11,8 +11,6 @@ class OxygenHelper : public QObject
 
     Q_PROPERTY(bool useBackgroundGradient READ useBackgroundGradient NOTIFY styleChanged)
     Q_PROPERTY(QString menuHighlightMode READ menuHighlightMode NOTIFY styleChanged)
-    Q_PROPERTY(int windowDecorationHeight READ windowDecorationHeight NOTIFY styleChanged)
-
 public:
     OxygenHelper(QObject *parent = nullptr);
 
@@ -20,8 +18,7 @@ public:
 
     bool useBackgroundGradient() const;
     QString menuHighlightMode() const;
-    int windowDecorationHeight() const;
-    void renderWindowBackground(QPainter *, const QRectF &, const QColor &);
+    void renderWindowBackground(QPainter *, const QRectF &clipRect, const QRectF &windowRect, const QColor &);
 
 signals:
     void styleChanged();

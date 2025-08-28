@@ -4,11 +4,11 @@ import QtQuick.Templates as T
 import org.kde.qqc2oxygenstyle.private
 
 T.ApplicationWindow {
-    id: window
+    id: window_
 
     SystemPalette {
         id: systemPalette
-        colorGroup: window.active ? SystemPalette.Active : SystemPalette.Inactive
+        colorGroup: window_.active ? SystemPalette.Active : SystemPalette.Inactive
     }
     
     background: Loader {
@@ -19,6 +19,7 @@ T.ApplicationWindow {
         id: gradientBackground
         OxygenGradientBackground {
             color: systemPalette.window
+            window: window_
             Component.onCompleted: {
               initialize(OxygenHelper);
             }
