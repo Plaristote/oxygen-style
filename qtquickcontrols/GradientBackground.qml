@@ -5,11 +5,9 @@ import Qt5Compat.GraphicalEffects
 Item {
     id: gradientBackground
     property real radius: 0
-    property bool withDecoration: false
     property int yShift: 0
     required property color baseColor
     readonly property real splitY: Math.min(300.0, (3 * height) / 4)
-    readonly property alias radialW: radialGradient.width
 
     anchors.fill: parent
     layer.enabled: radius != 0
@@ -29,7 +27,7 @@ Item {
         color: backgroundBottomColor(gradientBackground.baseColor)
         visible: anchors.topMargin < parent.height
     }
-    
+
     // Upper linear gradient section
     Rectangle {
         id: upperSection
@@ -38,32 +36,22 @@ Item {
         anchors.top: parent.top
         height: Math.max(0, gradientBackground.splitY + gradientBackground.yShift)
         visible: height > 0
-        
+
         gradient: Gradient {
             orientation: Gradient.Vertical
-            GradientStop { 
+            GradientStop {
                 position: 0.0
                 color: Qt.lighter(gradientBackground.baseColor, 1.1)
             }
-            GradientStop { 
+            GradientStop {
                 position: 0.4
                 color: gradientBackground.baseColor
             }
-            GradientStop { 
+            GradientStop {
                 position: 1.0
                 color: backgroundBottomColor(gradientBackground.baseColor)
             }
         }
-    }
-
-    GradientRadialBackground {
-        id: radialGradient
-        visible: withDecoration
-        anchors.horizontalCenter: parent.horizontalCenter
-        width: Math.min(600, gradientBackground.width)
-        height: 64 + yShift
-        baseColor: gradientBackground.baseColor
-        y: -yShift
     }
 
     // Mask for rounded borders support
@@ -71,28 +59,28 @@ Item {
         id: roundedMask
         anchors.fill: parent
         visible: false
-        
+
         ShapePath {
             strokeWidth: 0
             fillColor: "white"
-            
+
             startX: radius
             startY: 0
-            
+
             // Top edge
             PathLine { x: gradientBackground.width - radius; y: 0 }
-            
+
             // Top-right corner
-            PathArc { 
+            PathArc {
                 x: gradientBackground.width
                 y: radius
                 radiusX: radius
                 radiusY: radius
             }
-            
+
             // Right edge
             PathLine { x: gradientBackground.width; y: gradientBackground.height - radius }
-            
+
             // Bottom-right corner
             PathArc {
                 x: gradientBackground.width - radius
@@ -100,10 +88,10 @@ Item {
                 radiusX: radius
                 radiusY: radius
             }
-            
+
             // Bottom edge
             PathLine { x: radius; y: gradientBackground.height }
-            
+
             // Bottom-left corner
             PathArc {
                 x: 0
@@ -111,10 +99,10 @@ Item {
                 radiusX: radius
                 radiusY: radius
             }
-            
+
             // Left edge
             PathLine { x: 0; y: radius }
-            
+
             // Top-left corner
             PathArc {
                 x: radius

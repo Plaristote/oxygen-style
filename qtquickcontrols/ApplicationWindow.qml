@@ -17,10 +17,11 @@ T.ApplicationWindow {
 
     Component {
         id: gradientBackground
-        GradientBackground {
-            baseColor: systemPalette.window
-            withDecoration: true
-            yShift: OxygenHelper.windowDecorationHeight
+        OxygenGradientBackground {
+            color: systemPalette.window
+            Component.onCompleted: {
+              initialize(OxygenHelper);
+            }
         }
     }
 

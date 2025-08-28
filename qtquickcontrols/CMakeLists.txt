@@ -17,6 +17,7 @@ ecm_add_qml_module(qqc2oxygenstyleplugin
 
 target_sources(qqc2oxygenstyleplugin PRIVATE
     helper.cpp
+    gradientbackground.cpp
 )
 
 target_link_libraries(qqc2oxygenstyleplugin PRIVATE
@@ -94,7 +95,6 @@ ecm_target_qml_sources(OxygenStyle SOURCES
     VerticalHeaderView.qml
 
     GradientBackground.qml
-    GradientRadialBackground.qml
     MenuItemBackground.qml
 )
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "../liboxygen/oxygenhelper.h"
+#include <QPainter>
 #include <qqml.h>
 
 class OxygenHelper : public QObject
@@ -20,6 +21,7 @@ public:
     bool useBackgroundGradient() const;
     QString menuHighlightMode() const;
     int windowDecorationHeight() const;
+    void renderWindowBackground(QPainter *, const QRectF &, const QColor &);
 
 signals:
     void styleChanged();

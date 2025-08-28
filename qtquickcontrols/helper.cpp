@@ -32,3 +32,8 @@ int OxygenHelper::windowDecorationHeight() const
 
     return it != ratios.end() ? static_cast<int>((gridUnit + 2) * it.value()) : 33;
 }
+
+void OxygenHelper::renderWindowBackground(QPainter *painter, const QRectF &rect, const QColor &color)
+{
+    _helper->renderWindowBackground(painter, rect, rect, color, 0);
+}
