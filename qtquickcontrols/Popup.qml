@@ -1,5 +1,6 @@
 import QtQuick
 import org.kde.desktop as Style
+import org.kde.kirigami as Kirigami
 
 Style.Popup {
   background: Kirigami.ShadowedRectangle {
