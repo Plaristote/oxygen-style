@@ -40,3 +40,7 @@ under normal circumstances: unless I'm missing something, I doubt that will ever
 The QtWidget style implements a new custom setting, to let you chose whether you want
 to use a different color for inactive selections. This setting used to be implemented
 in the Colors KCM, but it's no longer available.
+
+## Desktoptheme
+
+Adds an SVG element for the Switch inputs.
