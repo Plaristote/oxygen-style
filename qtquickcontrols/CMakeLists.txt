@@ -98,6 +98,7 @@ ecm_target_qml_sources(OxygenStyle SOURCES
 
     GradientBackground.qml
     MenuItemBackground.qml
+    SwitchIndicator.qml
 )
 
 if (NOT BUILD_SHARED_LIBS)
