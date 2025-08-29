@@ -47,6 +47,7 @@ ecm_add_qml_module(OxygenStyle URI "org.kde.oxygen"
 
 ecm_target_qml_sources(OxygenStyle SOURCES
     ApplicationWindow.qml
+    BusyIndicator.qml
     Button.qml
     CheckBox.qml
     CheckDelegate.qml
