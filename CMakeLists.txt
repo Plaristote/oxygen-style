@@ -107,7 +107,8 @@ block(SCOPE_FOR VARIABLES)
     Service
     Completion
     FrameworkIntegration
-    WindowSystem)
+    WindowSystem
+    KirigamiPlatform)
     find_package(Plasma ${PROJECT_DEP_VERSION} REQUIRED)
     find_package(ECM ${KF6_MIN_VERSION} REQUIRED NO_MODULE)
     set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} )
@@ -130,6 +131,7 @@ block(SCOPE_FOR VARIABLES)
     add_subdirectory(cursors)
     add_subdirectory(desktoptheme)
     add_subdirectory(kdecoration)
+    add_subdirectory(kirigami-plasmadesktop-integration)
 
     plasma_install_package(lookandfeel org.kde.oxygen look-and-feel lookandfeel)
 
