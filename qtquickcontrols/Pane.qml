@@ -1,8 +1,7 @@
 import QtQuick
-import QtQuick.Controls.impl
-import QtQuick.Templates as T
+import org.kde.desktop as Style
 
-T.Pane {
+Style.Pane {
     id: button
 
     background: Rectangle {
