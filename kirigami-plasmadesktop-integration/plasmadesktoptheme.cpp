@@ -6,11 +6,7 @@
 
 #include "plasmadesktoptheme.h"
 
-#if HAVE_QTDBUS
 #include <QDBusConnection>
-#endif
-
-#include <QFontDatabase>
 #include <QGuiApplication>
 #include <QPalette>
 #include <QQuickRenderControl>
@@ -36,7 +32,6 @@ public:
         , buttonScheme(QPalette::Active, KColorScheme::ColorSet::Button)
         , viewScheme(QPalette::Active, KColorScheme::ColorSet::View)
     {
-#if HAVE_QTDBUS
         // Use DBus in order to listen for settings changes directly, as the
         // QApplication doesn't expose the font variants we're looking for,
         // namely smallFont.
@@ -46,20 +41,37 @@ public:
                                               QStringLiteral("refreshFonts"),
                                               this,
                                               SLOT(notifyWatchersConfigurationChange()));
-#endif
 
         connect(qGuiApp, &QGuiApplication::fontDatabaseChanged, this, &StyleSingleton::notifyWatchersConfigurationChange);
         qGuiApp->installEventFilter(this);
 
-        // NativeTextRendering is still distorted sometimes with fractional scale factors
-        // Given Qt disables all hinting with native rendering when any scaling is used anyway
-        // we can use Qt's rendering throughout
-        // QTBUG-126577
-        if (qApp->devicePixelRatio() == 1.0) {
-            QQuickWindow::setTextRenderType(QQuickWindow::NativeTextRendering);
-        } else {
-            QQuickWindow::setTextRenderType(QQuickWindow::QtTextRendering);
-        }
+        // Use NativeTextRendering as the default text rendering type when the scale factor is an integer.
+        // NativeTextRendering is still distorted sometimes with fractional scale factors,
+        // despite https://bugreports.qt.io/browse/QTBUG-67007 being closed.
+        qreal devicePixelRatio = qGuiApp->devicePixelRatio();
+        QQuickWindow::TextRenderType defaultTextRenderType =
+            int(devicePixelRatio) == devicePixelRatio ? QQuickWindow::NativeTextRendering : QQuickWindow::QtTextRendering;
+        QQuickWindow::setTextRenderType(defaultTextRenderType);
+
+        smallFont = loadSmallFont();
+    }
+
+    QFont loadSmallFont() const
+    {
+        KSharedConfigPtr ptr = KSharedConfig::openConfig();
+        KConfigGroup general(ptr->group(QStringLiteral("general")));
+
+        return general.readEntry("smallestReadableFont", []() {
+            auto smallFont = qApp->font();
+#ifndef Q_OS_WIN
+            if (smallFont.pixelSize() != -1) {
+                smallFont.setPixelSize(smallFont.pixelSize() - 2);
+            } else {
+                smallFont.setPointSize(smallFont.pointSize() - 2);
+            }
+#endif
+            return smallFont;
+        }());
     }
 
     void refresh()
@@ -146,15 +158,16 @@ public:
 
     Q_SLOT void notifyWatchersConfigurationChange()
     {
+        smallFont = loadSmallFont();
         for (auto watcher : std::as_const(watchers)) {
+            watcher->setSmallFont(smallFont);
             watcher->setDefaultFont(qApp->font());
-            watcher->setSmallFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
-            watcher->setFixedWidthFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
         }
     }
 
     KColorScheme buttonScheme;
     KColorScheme viewScheme;
+    QFont smallFont;
 
     QList<PlasmaDesktopTheme *> watchers;
 
@@ -183,7 +196,6 @@ Q_GLOBAL_STATIC(StyleSingleton, s_style);
 PlasmaDesktopTheme::PlasmaDesktopTheme(QObject *parent)
     : PlatformTheme(parent)
 {
-    setConstructing(true);
     setSupportsIconColoring(true);
 
     auto parentItem = qobject_cast<QQuickItem *>(parent);
@@ -196,14 +208,12 @@ PlasmaDesktopTheme::PlasmaDesktopTheme(QObject *parent)
     s_style->watchers.append(this);
 
     setDefaultFont(qGuiApp->font());
-    setSmallFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
-    setFixedWidthFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
+    setSmallFont(s_style->smallFont);
 
     syncWindow();
     if (!m_window) {
         syncColors();
     }
-    setConstructing(false);
 }
 
 PlasmaDesktopTheme::~PlasmaDesktopTheme()
@@ -227,11 +237,8 @@ void PlasmaDesktopTheme::syncWindow()
         if (!window) {
             window = qw;
         }
-        disconnect(m_sgConnection);
-        if (qw && !qw->isSceneGraphInitialized() && qw != m_window) {
-            m_sgConnection = connect(qw, &QQuickWindow::sceneGraphInitialized, this, &PlasmaDesktopTheme::syncWindow);
-        } else if (!qw) {
-            m_sgConnection = QMetaObject::Connection();
+        if (qw) {
+            connect(qw, &QQuickWindow::sceneGraphInitialized, this, &PlasmaDesktopTheme::syncWindow, Qt::UniqueConnection);
         }
     }
     m_window = window;
@@ -277,8 +284,6 @@ void PlasmaDesktopTheme::syncColors()
     }
 
     const auto colors = s_style->loadColors(colorSet(), group);
-
-    Kirigami::Platform::PlatformThemeChangeTracker tracker(this);
 
     // foreground
     setTextColor(colors.scheme.foreground(KColorScheme::NormalText).color());

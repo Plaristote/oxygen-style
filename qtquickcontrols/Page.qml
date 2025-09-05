@@ -4,12 +4,7 @@ import org.kde.desktop as Style
 Style.Page {
   id: page
 
-  Component.onCompleted: {
-    background = realBackground
-  }
-
-  Rectangle {
-    id: realBackground
+  background: Rectangle {
     color: "transparent"
   }
 

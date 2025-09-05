@@ -25,7 +25,7 @@ set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} )
 set(QT_NO_CREATE_VERSIONLESS_TARGETS ON)
 set(QT_NO_CREATE_VERSIONLESS_FUNCTIONS ON)
 
-option(BUILD_QT5 "Build Qt5 style" ON)
+option(BUILD_QT5 "Build Qt5 style" OFF)
 option(BUILD_QT6 "Build with Qt6" ON)
 
 # For KDE CI only. As the current infrastructure doesn't allow us to set CMAKE options per build variant
