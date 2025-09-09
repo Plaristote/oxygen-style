@@ -9,7 +9,7 @@ Style.MenuBarItem {
   contentItem: Label {
     text: controlRoot.Kirigami.MnemonicData.richTextLabel
     font: controlRoot.font
-    color: controlRoot.menu?.opened && OxygenHelper.menuHighlightMode != "MM_DARK" ? Kirigami.Theme.highlightedTextColor : Kirigami.Theme.textColor
+    color: controlRoot.menu?.opened && OxygenHelper.menuHighlightMode == "MM_STRONG" ? Kirigami.Theme.highlightedTextColor : Kirigami.Theme.textColor
     elide: Text.ElideRight
     visible: controlRoot.text
     horizontalAlignment: Text.AlignHCenter
