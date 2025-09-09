@@ -25,6 +25,7 @@ add_library(oxygendecoration MODULE
 )
 set_target_properties(oxygendecoration PROPERTIES
     OUTPUT_NAME org.kde.oxygen
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/kdecoration_build"
 )
 
 target_link_libraries(oxygendecoration
