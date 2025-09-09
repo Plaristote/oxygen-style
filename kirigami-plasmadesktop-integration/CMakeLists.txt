@@ -1,13 +1,18 @@
-set(org.kde.oxygen_SRCS
+set(oxygenkirigamiplatform_SRCS
     animationspeedprovider.cpp
     plasmadesktoptheme.cpp
     kirigamiplasmafactory.cpp
     plasmadesktopunits.cpp
 )
 
-add_library(org.kde.oxygen MODULE ${org.kde.oxygen_SRCS})
+add_library(oxygenkirigamiplatform MODULE ${oxygenkirigamiplatform_SRCS})
 
-target_link_libraries(org.kde.oxygen
+set_target_properties(oxygenkirigamiplatform PROPERTIES
+    OUTPUT_NAME org.kde.oxygen
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/platform_build"
+)
+
+target_link_libraries(oxygenkirigamiplatform
     PUBLIC
         Qt6::Core
         KF6::KirigamiPlatform
@@ -21,7 +26,7 @@ target_link_libraries(org.kde.oxygen
 )
 
 if(WIN32)
-    target_link_libraries(org.kde.oxygen PRIVATE user32)
+    target_link_libraries(oxygenkirigamiplatform PRIVATE user32)
 endif()
 
-install(TARGETS org.kde.oxygen DESTINATION ${KDE_INSTALL_PLUGINDIR}/kf6/kirigami/platform)
+install(TARGETS oxygenkirigamiplatform DESTINATION ${KDE_INSTALL_PLUGINDIR}/kf6/kirigami/platform)
