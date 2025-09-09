@@ -12,7 +12,7 @@ _The QtQuickStyle is only available for Qt6 QML applications._
 ### Configuring the QtQuickControls style
 
 As far as I know, KDE does not have a way to configure a QtQuickStyle. Instead,
-you should copy `qtquickcontrols/configue-oxygen.sh` to `~/.config/plasma-workspace/env/`
+you should copy `qtquickcontrols/configure-oxygen.sh` to `~/.config/plasma-workspace/env/`
 and restart your Plasma session. The script will check your current configured
 QtWidgets style, and if you are currently using the Oxygen QtWidget style, it will set
 an environment variable to tell QML applications to use the matching QtQuickStyle.
