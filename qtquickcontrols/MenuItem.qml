@@ -29,7 +29,7 @@ Style.MenuItem {
 
           text: controlRoot.Kirigami.MnemonicData.richTextLabel
           font: controlRoot.font
-          color: controlRoot.highlighted || controlRoot.down ? Kirigami.Theme.highlightedTextColor : Kirigami.Theme.textColor
+          color: (controlRoot.highlighted || controlRoot.down) && OxygenHelper.menuHighlightMode == "MM_STRONG" ? Kirigami.Theme.highlightedTextColor : Kirigami.Theme.textColor
           elide: Text.ElideRight
           visible: controlRoot.text
           horizontalAlignment: Text.AlignLeft
